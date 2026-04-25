@@ -6,6 +6,7 @@ import om.logitrack.api.dto.EmpresaCadastroDTO;
 import om.logitrack.api.dto.EmpresaDetalhamentoDTO;
 import om.logitrack.api.model.Empresa;
 import om.logitrack.api.repository.EmpresaRepository;
+import om.logitrack.api.service.EmpresaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,10 @@ import java.util.List;
 public class EmpresaController {
 
     private final EmpresaRepository empresaRepository;
-    public EmpresaController(EmpresaRepository empresaRepository){
+    private final EmpresaService empresaService;
+    public EmpresaController(EmpresaRepository empresaRepository, EmpresaService empresaService){
         this.empresaRepository = empresaRepository;
+        this.empresaService = empresaService;
     }
 
     @PostMapping
@@ -38,10 +41,7 @@ public class EmpresaController {
 
     @GetMapping
     public ResponseEntity<List<EmpresaDetalhamentoDTO>> listar() {
-        List<EmpresaDetalhamentoDTO> lista = empresaRepository.findAllComVeiculos()
-                .stream()
-                .map(EmpresaDetalhamentoDTO ::new)
-                .toList();
+        var lista = empresaService.lista();
 
         return ResponseEntity.ok(lista);
     }
