@@ -3,11 +3,11 @@ package om.logitrack.api.controller;
 import jakarta.validation.Valid;
 import om.logitrack.api.dto.EmpresaDetalhamentoDTO;
 import om.logitrack.api.dto.dtoRequest.EmpresaRequestDTO;
-import om.logitrack.api.model.Empresa;
-import om.logitrack.api.repository.EmpresaRepository;
+
+
 import om.logitrack.api.service.EmpresaService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
