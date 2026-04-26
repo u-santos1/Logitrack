@@ -2,7 +2,7 @@ package om.logitrack.api.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import om.logitrack.api.dto.VeiculoCadastroDTO;
+import om.logitrack.api.dto.dtoRequest.VeiculoCadastroDTO;
 import om.logitrack.api.dto.VeiculoDTO;
 import om.logitrack.api.model.Veiculo;
 import om.logitrack.api.repository.EmpresaRepository;

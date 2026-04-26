@@ -1,9 +1,8 @@
 package om.logitrack.api.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import om.logitrack.api.dto.EmpresaCadastroDTO;
 import om.logitrack.api.dto.EmpresaDetalhamentoDTO;
+import om.logitrack.api.dto.dtoRequest.EmpresaRequestDTO;
 import om.logitrack.api.model.Empresa;
 import om.logitrack.api.repository.EmpresaRepository;
 import om.logitrack.api.service.EmpresaService;
@@ -19,24 +18,18 @@ import java.util.List;
 
 public class EmpresaController {
 
-    private final EmpresaRepository empresaRepository;
     private final EmpresaService empresaService;
-    public EmpresaController(EmpresaRepository empresaRepository, EmpresaService empresaService){
-        this.empresaRepository = empresaRepository;
+    public EmpresaController(EmpresaService empresaService){
         this.empresaService = empresaService;
     }
 
     @PostMapping
-    @Transactional
-    public ResponseEntity<EmpresaDetalhamentoDTO> cadastrar(@RequestBody @Valid EmpresaCadastroDTO data, UriComponentsBuilder uriComponentsBuilder){
-        Empresa empresa = new Empresa();
-        empresa.setNomeFantasia(data.nomeFantasia());
-        empresa.setCnpj(data.cnpj());
+    public ResponseEntity<EmpresaDetalhamentoDTO> cadastrar(@RequestBody @Valid EmpresaRequestDTO data, UriComponentsBuilder uriComponentsBuilder){
 
-        Empresa empresaSalva = empresaRepository.save(empresa);
+        var dto = empresaService.cadastrar(data);
         var uri = uriComponentsBuilder.path("/empresas/{id}")
-                .buildAndExpand(empresaSalva.getId()).toUri();
-        return ResponseEntity.created(uri).body(new EmpresaDetalhamentoDTO(empresaSalva));
+                .buildAndExpand(dto.id()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 
     @GetMapping

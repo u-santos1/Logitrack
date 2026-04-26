@@ -1,7 +1,8 @@
 package om.logitrack.api.service;
 
-import om.logitrack.api.dto.EmpresaCadastroDTO;
+
 import om.logitrack.api.dto.EmpresaDetalhamentoDTO;
+import om.logitrack.api.dto.dtoRequest.EmpresaRequestDTO;
 import om.logitrack.api.model.Empresa;
 import om.logitrack.api.repository.EmpresaRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class EmpresaService {
     }
 
     @Transactional
-    public EmpresaDetalhamentoDTO cadastrar(EmpresaCadastroDTO data){
+    public EmpresaDetalhamentoDTO cadastrar(EmpresaRequestDTO data){
         Empresa empresa = new Empresa();
         empresa.setNomeFantasia(data.nomeFantasia());
         empresa.setCnpj(data.cnpj());
@@ -28,10 +29,10 @@ public class EmpresaService {
     }
 
     public List<EmpresaDetalhamentoDTO> lista(){
-        List<EmpresaDetalhamentoDTO> lista = empresaRepository.findAllComVeiculos()
+        return empresaRepository.findAllComVeiculos()
                 .stream()
                 .map(EmpresaDetalhamentoDTO:: new)
                 .toList();
-        return lista;
+
     }
 }

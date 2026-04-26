@@ -2,7 +2,7 @@ package om.logitrack.api.controller;
 
 
 import jakarta.validation.Valid;
-import om.logitrack.api.dto.VeiculoCadastroDTO;
+import om.logitrack.api.dto.dtoRequest.VeiculoCadastroDTO;
 import om.logitrack.api.dto.VeiculoDTO;
 import om.logitrack.api.service.VeiculoService;
 import org.springframework.http.ResponseEntity;

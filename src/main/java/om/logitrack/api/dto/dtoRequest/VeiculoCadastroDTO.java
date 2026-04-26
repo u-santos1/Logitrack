@@ -1,4 +1,4 @@
-package om.logitrack.api.dto;
+package om.logitrack.api.dto.dtoRequest;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
