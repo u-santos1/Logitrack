@@ -1,4 +1,4 @@
 package om.logitrack.api.dto.dtoRequest;
 
-public record DadosTokenJWT() {
+public record DadosTokenJWT(String token) {
 }
