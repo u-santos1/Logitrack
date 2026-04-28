@@ -1,4 +1,4 @@
-CREATE TABLE tb_manutencoes (
+ CREATE TABLE tb_manutencoes (
     id BIGSERIAL PRIMARY KEY,
     descricao TEXT NOT NULL,
     data_entrada DATE NOT NULL,
