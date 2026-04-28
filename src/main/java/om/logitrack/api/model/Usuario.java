@@ -4,6 +4,7 @@ import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import om.logitrack.api.model.enums.PerfilAcesso;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,9 @@ public class Usuario implements UserDetails {
 
     private String email;
     private String senha;
+
+    @Enumerated(EnumType.STRING)
+    private PerfilAcesso perfil;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -47,7 +51,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + perfil.name()));
     }
 
     @Override
