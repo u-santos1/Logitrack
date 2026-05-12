@@ -1,14 +1,16 @@
 package om.logitrack.api.service;
 
 
+import jakarta.transaction.Transactional;
 import om.logitrack.api.dto.EmpresaDetalhamentoDTO;
 import om.logitrack.api.dto.dtoRequest.EmpresaRequestDTO;
 import om.logitrack.api.model.Empresa;
 import om.logitrack.api.repository.EmpresaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 @Service
 public class EmpresaService {
@@ -28,11 +30,8 @@ public class EmpresaService {
         return new EmpresaDetalhamentoDTO(empresaSalva);
     }
 
-    public List<EmpresaDetalhamentoDTO> lista(){
-        return empresaRepository.findAllComVeiculos()
-                .stream()
-                .map(EmpresaDetalhamentoDTO:: new)
-                .toList();
-
+    public Page<EmpresaDetalhamentoDTO> listar( Pageable paginacao){
+        return empresaRepository.findAll(paginacao)
+                .map(EmpresaDetalhamentoDTO::new);
     }
 }

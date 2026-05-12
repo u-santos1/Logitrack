@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.lang.module.FindException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 @Entity
-@Table(name = "tb_manutecoes")
+@Table(name = "tb_manutencoes")
 @Getter @Setter
 public class Manutencao {
     @Id
