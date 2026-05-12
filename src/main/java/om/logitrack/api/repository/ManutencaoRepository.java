@@ -12,4 +12,6 @@ public interface ManutencaoRepository extends JpaRepository<Manutencao, Long> {
             "SELECT m FROM Manutencao m JOIN FETCH m.veiculo WHERE m.empresa.id = :empresaId"
     )
     List<Manutencao> listarComVeiculo(Long empresaId);
+
+    boolean existsByVeiculoPlacaAndDataSaidaIsNull(String placa);
 }

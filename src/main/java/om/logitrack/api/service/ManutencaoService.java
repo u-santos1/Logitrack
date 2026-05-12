@@ -1,18 +1,20 @@
 package om.logitrack.api.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import om.logitrack.api.dto.ManutencaoDetalhadamenteDTO;
 import om.logitrack.api.dto.dtoRequest.ManutencaoDTO;
 import om.logitrack.api.infra.RegraDeNegocio;
 import om.logitrack.api.model.Manutencao;
 import om.logitrack.api.model.Veiculo;
+import om.logitrack.api.model.enums.StatusVeiculo;
 import om.logitrack.api.repository.EmpresaRepository;
 import om.logitrack.api.repository.ManutencaoRepository;
 import om.logitrack.api.repository.VeiculoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ManutencaoService {
 
     private final EmpresaRepository empresaRepository;
@@ -29,6 +32,10 @@ public class ManutencaoService {
 
     @Transactional
     public ManutencaoDetalhadamenteDTO criar(ManutencaoDTO data){
+        boolean jaEstaNaOficina = manutencaoRepository.existsByVeiculoPlacaAndDataSaidaIsNull(data.placa());
+        if(jaEstaNaOficina){
+            throw new RegraDeNegocio("Este veículo já possui uma manutenção em andamento na oficina.");
+        }
         Veiculo veiculo = veiculoRepository.findByPlaca(data.placa())
                 .orElseThrow(()-> new RegraDeNegocio("Nao foi encontrado o veiculo no banco de dados da empresa"));
 
@@ -41,6 +48,7 @@ public class ManutencaoService {
         manutencao.setAtivo(true);
         manutencao.setVeiculo(veiculo);
         manutencao.setEmpresa(veiculo.getEmpresa());
+        manutencao.setStatus(StatusVeiculo.MANUTENCAO);
 
 
         var salvar = manutencaoRepository.save(manutencao);
@@ -62,6 +70,10 @@ public class ManutencaoService {
         buscar.setDataEntrada(data.dataEntrada());
         buscar.setDataSaida(data.dataSaida());
         buscar.setValorTotal(data.valorTotal());
+
+        if (data.dataSaida() != null){
+            buscar.setStatus(StatusVeiculo.DISPONIVEL);
+        }
 
         var salvarNovo = manutencaoRepository.save(buscar);
         return ManutencaoDetalhadamenteDTO.dto(salvarNovo);

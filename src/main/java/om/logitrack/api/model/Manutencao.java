@@ -3,6 +3,7 @@ package om.logitrack.api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import om.logitrack.api.model.enums.StatusVeiculo;
 import org.hibernate.annotations.DialectOverride;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -32,6 +33,9 @@ public class Manutencao {
 
     @Column(nullable = false)
     private boolean ativo;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVeiculo status = StatusVeiculo.MANUTENCAO;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veiculo_id", nullable = false)
