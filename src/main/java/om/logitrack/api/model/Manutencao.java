@@ -3,6 +3,8 @@ package om.logitrack.api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DialectOverride;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_manutencoes")
+@SQLRestriction("ativo = true")
 @Getter @Setter
 public class Manutencao {
     @Id
@@ -26,6 +29,9 @@ public class Manutencao {
 
     @Column(nullable = false)
     private BigDecimal valorTotal;
+
+    @Column(nullable = false)
+    private boolean ativo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veiculo_id", nullable = false)
