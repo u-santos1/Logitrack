@@ -74,6 +74,11 @@ public class ManutencaoService {
         Funcionario novoFuncionario = funcionarioRepository.findById(data.funcionarioId())
                         .orElseThrow(()-> new RegraDeNegocio("Funcionario nao encontrado"));
 
+        if(!novoFuncionario.isAtivo()){
+            throw new RegraDeNegocio("Este funcionário está inativo/desligado e não pode assumir manutenções.");
+        }
+
+
         buscar.setDescricao(data.descricao());
         buscar.setDataEntrada(data.dataEntrada());
         buscar.setDataSaida(data.dataSaida());
