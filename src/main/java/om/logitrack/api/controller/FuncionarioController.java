@@ -33,4 +33,14 @@ public class FuncionarioController {
         var dto = funcionarioService.listar(pageable);
         return ResponseEntity.ok(dto);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<FuncionarioDetalhamentoDTO> atualizacao(@PathVariable Long id, @RequestBody @Valid FuncionarioDTO data){
+        var dto = funcionarioService.atualizacao(id, data);
+        return ResponseEntity.ok(dto);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+        funcionarioService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }

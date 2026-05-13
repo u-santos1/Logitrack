@@ -1,4 +1,5 @@
 package om.logitrack.api.dto;
+import jakarta.validation.constraints.NotBlank;
 import om.logitrack.api.model.Empresa;
 import om.logitrack.api.model.Manutencao;
 import om.logitrack.api.model.Veiculo;
@@ -12,7 +13,8 @@ public record ManutencaoDetalhadamenteDTO(Long id,
                                           LocalDate dataEntrada,
                                           LocalDate dataSaida,
                                           BigDecimal valorTotal,
-                                          String placa) {
+                                          String placa,
+                                          Long funcionarioId) {
     public static ManutencaoDetalhadamenteDTO dto(Manutencao manutencao){
         return new ManutencaoDetalhadamenteDTO(
                 manutencao.getId(),
@@ -20,7 +22,8 @@ public record ManutencaoDetalhadamenteDTO(Long id,
                 manutencao.getDataEntrada(),
                 manutencao.getDataSaida(),
                 manutencao.getValorTotal(),
-                manutencao.getVeiculo().getPlaca()
+                manutencao.getVeiculo().getPlaca(),
+                manutencao.getFuncionario().getId()
         );
     }
 }

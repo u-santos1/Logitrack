@@ -1,6 +1,8 @@
 package om.logitrack.api.dto.dtoRequest;
 
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -10,6 +12,7 @@ public record ManutencaoDTO(
         LocalDate dataEntrada,
         LocalDate dataSaida,
         BigDecimal valorTotal,
-        String placa)
+        String placa,
+        @NotBlank Long funcionarioId)
 {
 }

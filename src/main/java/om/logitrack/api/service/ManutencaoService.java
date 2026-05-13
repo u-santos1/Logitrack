@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import om.logitrack.api.dto.ManutencaoDetalhadamenteDTO;
 import om.logitrack.api.dto.dtoRequest.ManutencaoDTO;
 import om.logitrack.api.infra.RegraDeNegocio;
+import om.logitrack.api.model.Funcionario;
 import om.logitrack.api.model.Manutencao;
 import om.logitrack.api.model.Veiculo;
 import om.logitrack.api.model.enums.StatusVeiculo;
 import om.logitrack.api.repository.EmpresaRepository;
+import om.logitrack.api.repository.FuncionarioRepository;
 import om.logitrack.api.repository.ManutencaoRepository;
 import om.logitrack.api.repository.VeiculoRepository;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,7 @@ public class ManutencaoService {
     private final EmpresaRepository empresaRepository;
     private final VeiculoRepository veiculoRepository;
     private final ManutencaoRepository manutencaoRepository;
+    private final FuncionarioRepository funcionarioRepository;
 
     @Transactional
     public ManutencaoDetalhadamenteDTO criar(ManutencaoDTO data){
@@ -38,6 +41,9 @@ public class ManutencaoService {
         Veiculo veiculo = veiculoRepository.findByPlaca(data.placa())
                 .orElseThrow(()-> new RegraDeNegocio("Nao foi encontrado o veiculo no banco de dados da empresa"));
 
+        Funcionario funcionario = funcionarioRepository.findById(data.funcionarioId())
+                .orElseThrow(()-> new RegraDeNegocio("Nao foi encontrado o funcionario"));
+
 
         Manutencao manutencao = new Manutencao();
         manutencao.setDescricao(data.descricao());
@@ -47,8 +53,8 @@ public class ManutencaoService {
         manutencao.setAtivo(true);
         manutencao.setVeiculo(veiculo);
         manutencao.setEmpresa(veiculo.getEmpresa());
+        manutencao.setFuncionario(funcionario);
         manutencao.setStatus(StatusVeiculo.MANUTENCAO);
-
 
         var salvar = manutencaoRepository.save(manutencao);
         return ManutencaoDetalhadamenteDTO.dto(salvar);}
@@ -65,10 +71,15 @@ public class ManutencaoService {
         Manutencao buscar = manutencaoRepository.findById(id)
                 .orElseThrow(()-> new RegraDeNegocio("veiculo em manutencao nao encontrado"));
 
+        Funcionario novoFuncionario = funcionarioRepository.findById(data.funcionarioId())
+                        .orElseThrow(()-> new RegraDeNegocio("Funcionario nao encontrado"));
+
         buscar.setDescricao(data.descricao());
         buscar.setDataEntrada(data.dataEntrada());
         buscar.setDataSaida(data.dataSaida());
         buscar.setValorTotal(data.valorTotal());
+
+        buscar.setFuncionario(novoFuncionario);
 
         if (data.dataSaida() != null){
             buscar.setStatus(StatusVeiculo.DISPONIVEL);

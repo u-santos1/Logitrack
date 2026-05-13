@@ -48,4 +48,23 @@ public class FuncionarioService {
 
     }
 
+    @Transactional
+    public FuncionarioDetalhamentoDTO atualizacao(Long id, FuncionarioDTO data){
+        Funcionario buscar = funcionarioRepository.findById(id)
+                .orElseThrow(()-> new RegraDeNegocio("Funcionario nao encontrado"));
+        buscar.setNome(data.nome());
+        buscar.setFuncao(data.funcao());
+        var salvar = funcionarioRepository.save(buscar);
+        return FuncionarioDetalhamentoDTO.dto(salvar);
+    }
+
+    @Transactional
+    public void deletar(Long id){
+        Funcionario buscar = funcionarioRepository.findById(id)
+                .orElseThrow(()-> new RegraDeNegocio("Funcionario nao encontrado"));
+
+        buscar.setAtivo(false);
+        funcionarioRepository.save(buscar);
+    }
+
 }
