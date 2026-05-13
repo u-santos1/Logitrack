@@ -1,7 +1,6 @@
 package om.logitrack.api.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import om.logitrack.api.dto.ManutencaoDetalhadamenteDTO;
 import om.logitrack.api.dto.dtoRequest.ManutencaoDTO;
@@ -18,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import java.util.List;
 
 
 @Service
@@ -85,6 +84,12 @@ public class ManutencaoService {
                 .orElseThrow(()-> new RegraDeNegocio("manutencao nao encontrado para esse id"));
         manutencao.setAtivo(false);
         manutencaoRepository.save(manutencao);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ManutencaoDetalhadamenteDTO> listarPorPlaca(String placa, Pageable pageable){
+        var buscarPorPlaca = manutencaoRepository.findByVeiculoPlaca(placa, pageable);
+        return buscarPorPlaca.map(ManutencaoDetalhadamenteDTO::dto);
     }
 }
 

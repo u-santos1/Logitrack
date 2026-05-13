@@ -37,7 +37,7 @@ public class TratadorDeErro {
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<DadosErroSimples> tratarErro500(Exception exception){
-        log.warn("Erro interno inesperado", exception);
+        log.error("Erro interno inesperado", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new DadosErroSimples("Error Interno"));
     }
     private record DadosErroValidacao(String campo, String mensagem) {

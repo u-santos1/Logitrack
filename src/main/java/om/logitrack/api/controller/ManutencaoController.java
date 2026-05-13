@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/manutencoes")
 @RequiredArgsConstructor
@@ -44,6 +46,13 @@ public class ManutencaoController {
     public ResponseEntity<Void> deletar(@PathVariable Long id){
         manutencaoService.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/veiculo/{placa}")
+    public ResponseEntity<Page<ManutencaoDetalhadamenteDTO>> listarPlaca(@PathVariable String placa,
+                                                                         @PageableDefault(size = 10, sort = {"dataEntrada"}
+                                                                         ,direction = Sort.Direction.DESC) Pageable pageable){
+        var dto = manutencaoService.listarPorPlaca(placa, pageable);
+        return ResponseEntity.ok(dto);
     }
 
 }

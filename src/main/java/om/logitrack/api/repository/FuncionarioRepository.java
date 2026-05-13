@@ -1,7 +1,9 @@
 package om.logitrack.api.repository;
 
-import om.logitrack.api.model.Operador;
+import om.logitrack.api.model.Funcionario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OperadorRepository extends JpaRepository<Operador, Long> {
+public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
+
+    boolean existsByMatricula(String matricula);
 }

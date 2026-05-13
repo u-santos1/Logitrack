@@ -6,9 +6,9 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "tb_operador")
+@Table(name = "tb_funcionario")
 @Getter @Setter
-public class Operador {
+public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

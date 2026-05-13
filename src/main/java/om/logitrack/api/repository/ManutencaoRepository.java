@@ -1,6 +1,8 @@
 package om.logitrack.api.repository;
 
 import om.logitrack.api.model.Manutencao;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,4 +16,6 @@ public interface ManutencaoRepository extends JpaRepository<Manutencao, Long> {
     List<Manutencao> listarComVeiculo(Long empresaId);
 
     boolean existsByVeiculoPlacaAndDataSaidaIsNull(String placa);
+
+    Page<Manutencao> findByVeiculoPlaca(String placa, Pageable pageable);
 }
