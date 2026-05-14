@@ -2,6 +2,7 @@ package om.logitrack.api.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import om.logitrack.api.dto.CustoTotalDTO;
 import om.logitrack.api.dto.ManutencaoDetalhadamenteDTO;
 import om.logitrack.api.dto.dtoRequest.ManutencaoDTO;
 import om.logitrack.api.service.ManutencaoService;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -52,6 +54,17 @@ public class ManutencaoController {
                                                                          @PageableDefault(size = 10, sort = {"dataEntrada"}
                                                                          ,direction = Sort.Direction.DESC) Pageable pageable){
         var dto = manutencaoService.listarPorPlaca(placa, pageable);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/veiculo/{placa}/custos")
+    public ResponseEntity<CustoTotalDTO> consultarPlaca(@PathVariable String placa){
+        var dto = manutencaoService.custoPorPlaca(placa);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/relatorio/custo")
+    public ResponseEntity<CustoTotalDTO> custo(@RequestParam LocalDate inicio,
+                               @RequestParam LocalDate fim){
+        var dto = manutencaoService.custo(inicio, fim);
         return ResponseEntity.ok(dto);
     }
 

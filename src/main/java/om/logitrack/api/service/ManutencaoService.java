@@ -2,6 +2,7 @@ package om.logitrack.api.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import om.logitrack.api.dto.CustoTotalDTO;
 import om.logitrack.api.dto.ManutencaoDetalhadamenteDTO;
 import om.logitrack.api.dto.dtoRequest.ManutencaoDTO;
 import om.logitrack.api.infra.RegraDeNegocio;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -106,6 +109,23 @@ public class ManutencaoService {
     public Page<ManutencaoDetalhadamenteDTO> listarPorPlaca(String placa, Pageable pageable){
         var buscarPorPlaca = manutencaoRepository.findByVeiculoPlaca(placa, pageable);
         return buscarPorPlaca.map(ManutencaoDetalhadamenteDTO::dto);
+    }
+    @Transactional(readOnly = true)
+    public CustoTotalDTO custoPorPlaca(String placa){
+        BigDecimal consulta = manutencaoRepository.somarCustosPorPlacas(placa);
+        if (consulta == null)
+            return new CustoTotalDTO(BigDecimal.ZERO);
+        return new CustoTotalDTO(consulta);
+    }
+
+    @Transactional(readOnly = true)
+    public CustoTotalDTO custo(LocalDate inicio,
+                               LocalDate fim){
+        BigDecimal consulta = manutencaoRepository.somarCustoTotal(inicio,fim);
+        if (consulta == null){
+            return new CustoTotalDTO(BigDecimal.ZERO);
+        }
+        return new CustoTotalDTO(consulta);
     }
 }
 
