@@ -6,10 +6,12 @@ import om.logitrack.api.dto.dtoRequest.FuncionarioDTO;
 import om.logitrack.api.infra.RegraDeNegocio;
 import om.logitrack.api.model.Empresa;
 import om.logitrack.api.model.Funcionario;
+import om.logitrack.api.model.Usuario;
 import om.logitrack.api.repository.EmpresaRepository;
 import om.logitrack.api.repository.FuncionarioRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,8 +44,9 @@ public class FuncionarioService {
         return FuncionarioDetalhamentoDTO.dto(salvar);
     }
     @Transactional(readOnly = true)
-    public Page<FuncionarioDetalhamentoDTO> listar(Pageable pageable){
-        return funcionarioRepository.findAll(pageable)
+    public Page<FuncionarioDetalhamentoDTO> listar(Pageable pageable,  Usuario usuarioLogado){
+    Long idEmpresaLogado = usuarioLogado.getEmpresa().getId();
+        return funcionarioRepository.findAllByAtivoTrueAndEmpresaId(pageable, idEmpresaLogado)
                 .map(FuncionarioDetalhamentoDTO::dto);
 
     }

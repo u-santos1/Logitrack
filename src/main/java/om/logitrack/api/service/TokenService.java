@@ -27,6 +27,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("Logitrack_API")
                     .withSubject(usuario.getEmail())
+                    .withClaim("empresaId", usuario.getEmpresa().getId())
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritimo);
         }catch (JWTCreationException exception){

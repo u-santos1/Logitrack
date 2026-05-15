@@ -1,5 +1,5 @@
-ALTER TABLE tb_manutencoes AND COLUMN ativo BOOLEAN;
-ALTER TABLE tb_manutencoes AND COLUMN status VARCHAR(50);
+ALTER TABLE tb_manutencoes ADD COLUMN ativo BOOLEAN;
+ALTER TABLE tb_manutencoes ADD COLUMN status VARCHAR(50);
 
 UPDATE tb_manutencoes SET ativo = TRUE;
 UPDATE tb_manutencoes SET status = 'MANUTENCAO';

@@ -5,9 +5,11 @@ import jakarta.transaction.Transactional;
 import om.logitrack.api.dto.EmpresaDetalhamentoDTO;
 import om.logitrack.api.dto.dtoRequest.EmpresaRequestDTO;
 import om.logitrack.api.model.Empresa;
+import om.logitrack.api.model.Usuario;
 import om.logitrack.api.repository.EmpresaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
@@ -30,8 +32,10 @@ public class EmpresaService {
         return new EmpresaDetalhamentoDTO(empresaSalva);
     }
 
-    public Page<EmpresaDetalhamentoDTO> listar( Pageable paginacao){
-        return empresaRepository.findAll(paginacao)
+    public Page<EmpresaDetalhamentoDTO> listar(Pageable paginacao,
+                                               @AuthenticationPrincipal Usuario usuarioLogado){
+        Long idEmpresaLogada = usuarioLogado.getEmpresa().getId();
+        return empresaRepository.findAllByAtivoTrueAndId(paginacao, idEmpresaLogada)
                 .map(EmpresaDetalhamentoDTO::new);
     }
 }

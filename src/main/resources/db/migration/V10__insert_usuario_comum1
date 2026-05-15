@@ -1,0 +1,2 @@
+INSERT INTO tb_usuarios (email, senha, perfil)
+VALUES ('funcionario@teste.com', '$2a$10$zzSlQ7nvKpF8wMuQATOMYesIiPFuZuKgmfQKq.ARpnaeXp15hwky6', 'USER');

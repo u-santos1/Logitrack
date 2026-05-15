@@ -28,6 +28,10 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private PerfilAcesso perfil;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
+
     @Override
     public boolean isAccountNonExpired() {
         return UserDetails.super.isAccountNonExpired();

@@ -10,4 +10,9 @@ class LogitrackBackendApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+
+	@Test
+	void gerarSenhaBcrypt() {
+		System.out.println(new BCryptPasswordEncoder().encode("123456"));
+	}
 }

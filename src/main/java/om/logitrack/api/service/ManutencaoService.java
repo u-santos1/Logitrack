@@ -8,6 +8,7 @@ import om.logitrack.api.dto.dtoRequest.ManutencaoDTO;
 import om.logitrack.api.infra.RegraDeNegocio;
 import om.logitrack.api.model.Funcionario;
 import om.logitrack.api.model.Manutencao;
+import om.logitrack.api.model.Usuario;
 import om.logitrack.api.model.Veiculo;
 import om.logitrack.api.model.enums.StatusVeiculo;
 import om.logitrack.api.repository.EmpresaRepository;
@@ -17,6 +18,7 @@ import om.logitrack.api.repository.VeiculoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,8 +66,10 @@ public class ManutencaoService {
 
 
     @Transactional(readOnly = true)
-    public Page<ManutencaoDetalhadamenteDTO> listar(Pageable paginacao){
-       return manutencaoRepository.findAll(paginacao)
+    public Page<ManutencaoDetalhadamenteDTO> listar(Pageable paginacao,
+                                                    @AuthenticationPrincipal Usuario usuarioLogado){
+        Long idEmpresaLogado = usuarioLogado.getEmpresa().getId();
+       return manutencaoRepository.findAllByAtivoTrueAndEmpresaId(paginacao, idEmpresaLogado)
                .map(ManutencaoDetalhadamenteDTO::dto);
 
     }

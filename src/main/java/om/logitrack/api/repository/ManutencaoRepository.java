@@ -34,4 +34,6 @@ public interface ManutencaoRepository extends JpaRepository<Manutencao, Long> {
     )
     BigDecimal somarCustoTotal(@Param("inicio") LocalDate inicio,
                                @Param("fim") LocalDate fim);
+
+    Page<Manutencao> findAllByAtivoTrueAndEmpresaId(Pageable pageable, Long id);
 }

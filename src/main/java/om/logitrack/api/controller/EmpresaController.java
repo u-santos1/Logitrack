@@ -5,12 +5,14 @@ import om.logitrack.api.dto.EmpresaDetalhamentoDTO;
 import om.logitrack.api.dto.dtoRequest.EmpresaRequestDTO;
 
 
+import om.logitrack.api.model.Usuario;
 import om.logitrack.api.service.EmpresaService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -37,8 +39,10 @@ public class EmpresaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<EmpresaDetalhamentoDTO>> listar(@PageableDefault(size = 10, sort = {"nomeFantasia"})Pageable paginacao) {
-        var pagina = empresaService.listar(paginacao);
+    public ResponseEntity<Page<EmpresaDetalhamentoDTO>> listar(@PageableDefault(size = 10, sort = {"nomeFantasia"})Pageable paginacao,
+                                                               @AuthenticationPrincipal Usuario usuarioLogado) {
+
+        var pagina = empresaService.listar(paginacao, usuarioLogado);
         return ResponseEntity.ok(pagina);
     }
 

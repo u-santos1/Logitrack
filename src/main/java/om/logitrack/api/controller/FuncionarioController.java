@@ -4,12 +4,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import om.logitrack.api.dto.FuncionarioDetalhamentoDTO;
 import om.logitrack.api.dto.dtoRequest.FuncionarioDTO;
+import om.logitrack.api.model.Usuario;
 import om.logitrack.api.service.FuncionarioService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -29,8 +31,9 @@ public class FuncionarioController {
 
     @GetMapping
     public ResponseEntity<Page<FuncionarioDetalhamentoDTO>> listar(
-            @PageableDefault(size = 10, sort = {"matricula"}, direction = Sort.Direction.DESC) Pageable pageable){
-        var dto = funcionarioService.listar(pageable);
+            @PageableDefault(size = 10, sort = {"matricula"}, direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal Usuario usuarioLogado){
+        var dto = funcionarioService.listar(pageable, usuarioLogado);
         return ResponseEntity.ok(dto);
     }
     @PutMapping("/{id}")

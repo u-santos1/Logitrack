@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import om.logitrack.api.dto.CustoTotalDTO;
 import om.logitrack.api.dto.ManutencaoDetalhadamenteDTO;
 import om.logitrack.api.dto.dtoRequest.ManutencaoDTO;
+import om.logitrack.api.model.Usuario;
 import om.logitrack.api.service.ManutencaoService;
 import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.domain.Page;
@@ -35,8 +36,9 @@ public class ManutencaoController {
         return ResponseEntity.created(uri).body(dto);
     }
     @GetMapping()
-    public ResponseEntity<Page<ManutencaoDetalhadamenteDTO>> listar(@PageableDefault(size = 10, sort = {"dataEntrada"}, direction = Sort.Direction.DESC) Pageable pageable){
-        var pagina = manutencaoService.listar(pageable);
+    public ResponseEntity<Page<ManutencaoDetalhadamenteDTO>> listar(@PageableDefault(size = 10, sort = {"dataEntrada"}, direction = Sort.Direction.DESC) Pageable pageable,
+                                                                    @AuthenticationPrincipal Usuario usuarioLogado){
+        var pagina = manutencaoService.listar(pageable, usuarioLogado);
         return ResponseEntity.ok(pagina);
     }
     @PutMapping("/{id}")
