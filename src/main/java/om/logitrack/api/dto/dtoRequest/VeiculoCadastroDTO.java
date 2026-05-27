@@ -13,8 +13,6 @@ public record VeiculoCadastroDTO(
         @NotNull
         TipoVeiculo tipo,
         @NotNull
-        StatusVeiculo status,
-        @NotNull
-        Long empresaId
+        StatusVeiculo status
 ) {
 }

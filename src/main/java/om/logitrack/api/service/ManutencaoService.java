@@ -6,10 +6,7 @@ import om.logitrack.api.dto.CustoTotalDTO;
 import om.logitrack.api.dto.ManutencaoDetalhadamenteDTO;
 import om.logitrack.api.dto.dtoRequest.ManutencaoDTO;
 import om.logitrack.api.infra.RegraDeNegocio;
-import om.logitrack.api.model.Funcionario;
-import om.logitrack.api.model.Manutencao;
-import om.logitrack.api.model.Usuario;
-import om.logitrack.api.model.Veiculo;
+import om.logitrack.api.model.*;
 import om.logitrack.api.model.enums.StatusVeiculo;
 import om.logitrack.api.repository.EmpresaRepository;
 import om.logitrack.api.repository.FuncionarioRepository;
@@ -102,9 +99,12 @@ public class ManutencaoService {
 
     }
     @Transactional
-    public void deletar(Long id){
+    public void deletar(Long id, Usuario usuarioLogado){
         Manutencao manutencao = manutencaoRepository.findById(id)
                 .orElseThrow(()-> new RegraDeNegocio("manutencao nao encontrado para esse id"));
+        if(!manutencao.getEmpresa().getId().equals(usuarioLogado.getEmpresa().getId())){
+            throw new RegraDeNegocio("Acesso negado. Você não tem permissão para excluir");
+        }
         manutencao.setAtivo(false);
         manutencaoRepository.save(manutencao);
     }

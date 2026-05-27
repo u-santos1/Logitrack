@@ -1,7 +1,10 @@
 package om.logitrack.api.repository;
 
 
+import om.logitrack.api.model.Empresa;
 import om.logitrack.api.model.Veiculo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -25,4 +28,6 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
     )List<Veiculo> buscarDisponiveis(Long empresaId);
 
     List<Veiculo> findByEmpresa_Id(Long empresaId);
+
+    Page<Veiculo> findAllByAtivoTrueAndEmpresaId(Pageable pageable, Long id);
 }

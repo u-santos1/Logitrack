@@ -47,8 +47,9 @@ public class ManutencaoController {
         return ResponseEntity.ok(dto);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id){
-        manutencaoService.deletar(id);
+    public ResponseEntity<Void> deletar(@PathVariable Long id,
+                                        @AuthenticationPrincipal Usuario usuarioLogado){
+        manutencaoService.deletar(id, usuarioLogado);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/veiculo/{placa}")

@@ -8,8 +8,8 @@ public record VeiculoDTO(Long id,
                          String modelo,
                          TipoVeiculo tipo,
                          String status) {
-    public VeiculoDTO(Veiculo veiculo){
-        this(
+    public static  VeiculoDTO dto(Veiculo veiculo){
+        return new VeiculoDTO(
                 veiculo.getId(),
                 veiculo.getPlaca(),
                 veiculo.getModelo(),
