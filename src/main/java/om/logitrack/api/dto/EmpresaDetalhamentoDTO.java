@@ -15,7 +15,7 @@ public record EmpresaDetalhamentoDTO(Long id,
                 empresa.getNomeFantasia(),
                 empresa.getCnpj(),
                 empresa.getVeiculos() != null ?
-                        empresa.getVeiculos().stream().map(VeiculoDTO::new).toList() :
+                        empresa.getVeiculos().stream().map(VeiculoDTO::dto).toList() :
                         java.util.Collections.emptyList()
         );
     }

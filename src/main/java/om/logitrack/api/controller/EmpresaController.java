@@ -5,6 +5,7 @@ import om.logitrack.api.dto.EmpresaDetalhamentoDTO;
 import om.logitrack.api.dto.dtoRequest.EmpresaRequestDTO;
 
 
+import om.logitrack.api.model.Empresa;
 import om.logitrack.api.model.Usuario;
 import om.logitrack.api.service.EmpresaService;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,19 @@ public class EmpresaController {
 
         var pagina = empresaService.listar(paginacao, usuarioLogado);
         return ResponseEntity.ok(pagina);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<EmpresaDetalhamentoDTO> atualizacao(@PathVariable Long id,
+                                                              @RequestBody @Valid EmpresaRequestDTO data,
+                                                              @AuthenticationPrincipal Usuario usuarioLogado){
+        EmpresaDetalhamentoDTO dto = empresaService.atualizar(id, data, usuarioLogado);
+        return ResponseEntity.ok(dto);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id,
+                                        @AuthenticationPrincipal Usuario usuarioLogado){
+        empresaService.deletar(id, usuarioLogado);
+        return ResponseEntity.noContent().build();
     }
 
 }
