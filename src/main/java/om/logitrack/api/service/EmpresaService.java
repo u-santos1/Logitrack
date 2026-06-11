@@ -24,7 +24,7 @@ public class EmpresaService {
 
     @Transactional
     public EmpresaDetalhamentoDTO cadastrar(EmpresaRequestDTO data){
-        if (empresaRepository.findByCnpjAndTrue(data.cnpj()).isPresent()){
+        if (empresaRepository.findByCnpjAndAtivoTrue(data.cnpj()).isPresent()){
             throw new RegraDeNegocio("Ja existe uma empresa com esse cnpj");
         }
         Empresa empresa = new Empresa();
@@ -54,7 +54,7 @@ public class EmpresaService {
         }
 
         if (!busca.getCnpj().equals(data.cnpj())){
-            boolean cnpjExiste = empresaRepository.findByCnpjAndTrue(data.cnpj()).isPresent();
+            boolean cnpjExiste = empresaRepository.findByCnpjAndAtivoTrue(data.cnpj()).isPresent();
                 if(cnpjExiste){
                     throw new RegraDeNegocio("Ja existe outra empresa cadastrada com esse cnpj");
                 }

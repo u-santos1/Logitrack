@@ -21,5 +21,5 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
 
     Page<Empresa> findAllByAtivoTrueAndId(Pageable pageable, Long id);
 
-    Optional<Empresa> findByCnpjAndTrue(String cnpj);
+    Optional<Empresa> findByCnpjAndAtivoTrue(String cnpj);
 }
